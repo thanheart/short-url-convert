@@ -27,6 +27,7 @@
         <module>short-url-convert-client</module>
         <module>short-url-convert-web</module>
         <module>short-url-convert-common</module>
+        <module>short-url-convert-db</module>
     </modules>
 
     <properties>
@@ -52,7 +53,18 @@
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.20</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>2.3</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 </project>
