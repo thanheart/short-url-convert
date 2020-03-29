@@ -48,6 +48,7 @@ public class BinarySystemUtils {
 
     public static String convertTenToSixtyTwoBinary(final long number) {
         final List<Character> sixtyTwoBinChar = new ArrayList<Character>();
-        number%SixtyTwo
+//        number%SixtyTwo
+        return "";
     }
 }
