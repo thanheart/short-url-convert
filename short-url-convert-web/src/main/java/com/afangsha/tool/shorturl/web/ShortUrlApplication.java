@@ -6,6 +6,7 @@
 
 package com.afangsha.tool.shorturl.web;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,8 +17,15 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author changsu
  *
  */
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "com.afangsha.tool.shorturl.common",
+                "com.afangsha.tool.shorturl.biz",
+                "com.afangsha.tool.shorturl.web"
+        }
+)
 @EnableAsync
+@MapperScan("com.afangsha.tool.shorturl.db.mysql")
 public class ShortUrlApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(

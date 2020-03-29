@@ -63,6 +63,42 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>2.3</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-biz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.afangsha.tool</groupId>
+                <artifactId>shout-url-convert-data </artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

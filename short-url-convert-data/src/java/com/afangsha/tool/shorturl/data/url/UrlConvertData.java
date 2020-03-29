@@ -26,8 +26,10 @@ public class UrlConvertData {
     private Long id;
     private String longUrl;
     private String shortUrl;
-    private String key;
-    private Long num;//建立索引
+    private int source;
+    private int type;
+    private Long hashcode;//建立索引
+    private Long userId;
     private Boolean deleted;
     private Timestamp created;
     private Timestamp lastModified;

@@ -17,5 +17,12 @@
 
     <artifactId>short-url-convert-common</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.afangsha.tool</groupId>
+            <artifactId>short-url-convert-data</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

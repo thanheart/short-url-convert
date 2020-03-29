@@ -17,5 +17,21 @@
 
     <artifactId>short-url-convert-biz</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.afangsha.tool</groupId>
+            <artifactId>short-url-convert-db</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.afangsha.tool</groupId>
+            <artifactId>short-url-convert-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>4.3.13.RELEASE</version>
+        </dependency>
+    </dependencies>
 </project>
