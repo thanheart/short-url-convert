@@ -11,9 +11,12 @@ package com.afangsha.tool.shorturl.biz.util;
  *
  */
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 进制转换
@@ -37,18 +40,63 @@ public class BinarySystemUtils {
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
             'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
-    private static List<Character> SixtyTwoBinaryCode = new ArrayList<Character>();
-    private static long SixtyTwo = 62;
+    private static List<Character> SixtyTwoBinaryCodeList = new ArrayList<Character>();
+    private static Map<Character, Integer> SixtyTwoBinaryCodeMap = new HashMap<>();
+    private static int SixtyTwo = 62;
+    private static int Ten = 10;
 
     static {
-        SixtyTwoBinaryCode.addAll(Arrays.asList(tenNumber));
-        SixtyTwoBinaryCode.addAll(Arrays.asList(lowerLetter));
-        SixtyTwoBinaryCode.addAll(Arrays.asList(upperLetter));
+        SixtyTwoBinaryCodeList.addAll(Arrays.asList(tenNumber));
+        SixtyTwoBinaryCodeList.addAll(Arrays.asList(lowerLetter));
+        SixtyTwoBinaryCodeList.addAll(Arrays.asList(upperLetter));
+        for (int index = 0; index < SixtyTwoBinaryCodeList.size(); ++index) {
+            SixtyTwoBinaryCodeMap.put(SixtyTwoBinaryCodeList.get(index), index);
+        }
     }
 
+    /**
+     * 10 进制 转 62 进制
+     * @param number
+     * @return
+     */
     public static String convertTenToSixtyTwoBinary(final long number) {
-        final List<Character> sixtyTwoBinChar = new ArrayList<Character>();
-//        number%SixtyTwo
-        return "";
+        return binarySystemConvert(String.valueOf(number), Ten, SixtyTwo);
+    }
+
+    /**
+     * sourceBinary 进制转换为 targetBinary 进制
+     * @param number
+     * @param sourceBinary
+     * @param targetBinary
+     * @return
+     */
+    private static String binarySystemConvert(final String number, final int sourceBinary,
+            final int targetBinary) {
+        final char[] numberChars = number.toCharArray();
+        long tenBinSum = 0;
+        //转换为 10 进制
+        if (sourceBinary == 10) {
+            tenBinSum = Long.valueOf(number);
+        } else {
+            for (int index = 1; index < numberChars.length; ++index) {
+                char numberChar = numberChars[numberChars.length - index];
+                int num = convertToNumber(numberChar);
+                tenBinSum += num * Math.pow(sourceBinary, index - 1);
+            }
+        }
+        //转换为 targetBin 进制
+        if (targetBinary == 10) {
+            return String.valueOf(tenBinSum);
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        for (; tenBinSum != 0; tenBinSum /= targetBinary) {
+            int tenNum = (int) (tenBinSum % targetBinary);
+            stringBuffer.append(SixtyTwoBinaryCodeList.get(tenNum));
+        }
+        return stringBuffer.reverse().toString();
+    }
+
+    private static int convertToNumber(final char code) {
+        return SixtyTwoBinaryCodeMap.get(code);
     }
 }
