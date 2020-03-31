@@ -64,6 +64,15 @@ public class BinarySystemUtils {
     }
 
     /**
+     * 62 进制转 10 进制
+     * @param number
+     * @return
+     */
+    public static String convertSixtyTwoToTenBinary(final String number) {
+        return binarySystemConvert(number, SixtyTwo, Ten);
+    }
+
+    /**
      * sourceBinary 进制转换为 targetBinary 进制
      * @param number
      * @param sourceBinary
