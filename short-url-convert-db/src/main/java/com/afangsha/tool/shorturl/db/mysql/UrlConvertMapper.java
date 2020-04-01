@@ -17,4 +17,6 @@ import org.apache.ibatis.annotations.Param;
 public interface UrlConvertMapper extends BaseMapper<UrlConvertData> {
 
     UrlConvertData getUrlDataById(@Param("id") long id);
+
+    UrlConvertData getUrlDataByHashCode(@Param("hash_code") long hashCode);
 }

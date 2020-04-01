@@ -6,7 +6,7 @@
 
 package com.afangsha.tool.shorturl.biz.service.impl;
 
-import com.afangsha.tool.shorturl.biz.data.common.ResponseMessageEnum;
+import com.afangsha.tool.shorturl.data.common.ResponseMessageEnum;
 import com.afangsha.tool.shorturl.biz.exception.ShortUrlException;
 import com.afangsha.tool.shorturl.biz.service.ShortUrlService;
 import com.afangsha.tool.shorturl.biz.util.BinarySystemUtils;
@@ -28,6 +28,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     private static String ShortUrlPrefix = "afs.ink/a/";
     private static String ConflictAddValue = "#";
     private static int MaxTryCount = 10;
+    private static String Empty = "";
 
     @Autowired
     private UrlConvertMapper urlConvertMapper;
@@ -58,6 +59,15 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
     @Override
     public String convertToLongUrl(final String shortUrl) {
-        final String trueUrl = shortUrl.startsWith(HTTP)?shortUrl.replaceFirst(Https)
+        if (!shortUrl.startsWith(ShortUrlPrefix)) {
+            throw new ShortUrlException(ResponseMessageEnum.URL_NOT_SHORT);
+        }
+        final String number = shortUrl.replace(ShortUrlPrefix, Empty);
+        final long hashCode = Long.valueOf(BinarySystemUtils.convertSixtyTwoToTenBinary(number));
+        final UrlConvertData urlConvertData = urlConvertMapper.getUrlDataByHashCode(hashCode);
+        if (urlConvertData.getShortUrl().equals(shortUrl)) {
+            return urlConvertData.getLongUrl();
+        }
+        throw new ShortUrlException(ResponseMessageEnum.URL_NOT_EXISTS);
     }
 }

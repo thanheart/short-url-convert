@@ -6,7 +6,6 @@
 
 package com.afangsha.tool.shorturl.biz.exception;
 
-import com.afangsha.tool.shorturl.biz.data.common.ResponseMessageEnum;
 import org.springframework.http.HttpStatus;
 
 /**

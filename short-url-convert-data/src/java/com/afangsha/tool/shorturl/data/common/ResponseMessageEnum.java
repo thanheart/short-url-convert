@@ -4,7 +4,7 @@
  * Qunhe PROPRIETARY/CONFIDENTIAL, any form of usage is subject to approval.
  */
 
-package com.afangsha.tool.shorturl.biz.data.common;
+package com.afangsha.tool.shorturl.data.common;
 
 /**
  * @author changsu
@@ -17,6 +17,8 @@ public enum  ResponseMessageEnum {
      * 10000-10100 为短链接异常
      */
     SHORT_URL_CREAT_ERROR(10000,"短链接生成异常"),
+    URL_NOT_SHORT(10001,"不是短链接"),
+    URL_NOT_EXISTS(10002,"短链接不存在"),
 
     /**
      *  90000-90100 为通用错误码

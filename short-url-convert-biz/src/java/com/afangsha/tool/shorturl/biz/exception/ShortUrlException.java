@@ -6,7 +6,7 @@
 
 package com.afangsha.tool.shorturl.biz.exception;
 
-import com.afangsha.tool.shorturl.biz.data.common.ResponseMessageEnum;
+import com.afangsha.tool.shorturl.data.common.ResponseMessageEnum;
 
 /**
  * @author changsu
