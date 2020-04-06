@@ -47,4 +47,12 @@ public class ShortUrlApiResult<T> {
         result.setCode(ResponseMessageEnum.SUCCESS.code);
         return result;
     }
+
+    public static <T> ShortUrlApiResult<T> pack(int code, T resultData) {
+        final ShortUrlApiResult<T> result = new ShortUrlApiResult<>();
+        result.success = true;
+        result.setCode(code);
+        result.resData = resultData;
+        return result;
+    }
 }

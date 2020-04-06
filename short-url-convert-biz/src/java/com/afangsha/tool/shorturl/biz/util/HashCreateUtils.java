@@ -6,6 +6,9 @@
 
 package com.afangsha.tool.shorturl.biz.util;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -21,7 +24,7 @@ public class HashCreateUtils {
      * @return
      */
     public static long murmurHashGenerator(final String context) {
-        return hash(context.getBytes());
+        return Hashing.murmur3_32().hashString(context, Charsets.UTF_8).asInt();
     }
 
     private static Long hash(byte[] key) {

@@ -41,7 +41,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         urlConvertData.setLongUrl(trueUrl);
         String hashStr = new String(trueUrl);
         for (int count = 0; count < MaxTryCount; ++count, hashStr += ConflictAddValue) {
-            final long hashCode = HashCreateUtils.murmurHashGenerator(hashStr);
+            long hashCode = HashCreateUtils.murmurHashGenerator(hashStr);
+            if (hashCode < 0) {
+                hashCode *= (-1);
+            }
             urlConvertData.setHashcode(hashCode);
             urlConvertData.setShortUrl(
                     ShortUrlPrefix + BinarySystemUtils.convertTenToSixtyTwoBinary(hashCode));
@@ -50,6 +53,12 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                 return urlConvertData.getShortUrl();
             } catch (final Exception e) {
                 //add log todo
+                final UrlConvertData reqConvertData = new UrlConvertData();
+                reqConvertData.setHashcode(hashCode);
+                final UrlConvertData selectConvertData = urlConvertMapper.selectOne(reqConvertData);
+                if (selectConvertData.getLongUrl().equals(trueUrl)) {
+                    return selectConvertData.getShortUrl();
+                }
                 continue;
             }
         }
@@ -64,7 +73,9 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         }
         final String number = shortUrl.replace(ShortUrlPrefix, Empty);
         final long hashCode = Long.valueOf(BinarySystemUtils.convertSixtyTwoToTenBinary(number));
-        final UrlConvertData urlConvertData = urlConvertMapper.getUrlDataByHashCode(hashCode);
+        final UrlConvertData reqConvertData = new UrlConvertData();
+        reqConvertData.setHashcode(hashCode);
+        final UrlConvertData urlConvertData = urlConvertMapper.selectOne(reqConvertData);
         if (urlConvertData.getShortUrl().equals(shortUrl)) {
             return urlConvertData.getLongUrl();
         }

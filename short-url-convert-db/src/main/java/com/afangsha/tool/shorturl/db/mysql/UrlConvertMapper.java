@@ -18,5 +18,5 @@ public interface UrlConvertMapper extends BaseMapper<UrlConvertData> {
 
     UrlConvertData getUrlDataById(@Param("id") long id);
 
-    UrlConvertData getUrlDataByHashCode(@Param("hash_code") long hashCode);
+    UrlConvertData getUrlDataByHashCode(@Param("hashcode") long hashCode);
 }

@@ -20,7 +20,7 @@ import java.sql.Timestamp;
  */
 @Getter
 @Setter
-@TableName(value = "table")
+@TableName(value = "urlconvert")
 public class UrlConvertData {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

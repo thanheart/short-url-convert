@@ -29,7 +29,7 @@ public class BinarySystemUtils {
      * @return
      */
 
-    private static Character[] tenNumber = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    private static Character[] tenNumber = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     private static Character[] lowerLetter = {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -87,7 +87,7 @@ public class BinarySystemUtils {
         if (sourceBinary == 10) {
             tenBinSum = Long.valueOf(number);
         } else {
-            for (int index = 1; index < numberChars.length; ++index) {
+            for (int index = 1; index <= numberChars.length; ++index) {
                 char numberChar = numberChars[numberChars.length - index];
                 int num = convertToNumber(numberChar);
                 tenBinSum += num * Math.pow(sourceBinary, index - 1);

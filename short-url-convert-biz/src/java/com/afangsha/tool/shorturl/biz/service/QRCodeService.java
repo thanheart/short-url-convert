@@ -16,4 +16,5 @@ package com.afangsha.tool.shorturl.biz.service;
  */
 public interface QRCodeService {
 
+
 }
