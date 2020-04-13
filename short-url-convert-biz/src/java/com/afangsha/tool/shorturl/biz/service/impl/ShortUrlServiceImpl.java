@@ -16,6 +16,9 @@ import com.afangsha.tool.shorturl.db.mysql.UrlConvertMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * @author changsu
  *
@@ -80,5 +83,14 @@ public class ShortUrlServiceImpl implements ShortUrlService {
             return urlConvertData.getLongUrl();
         }
         throw new ShortUrlException(ResponseMessageEnum.URL_NOT_EXISTS);
+    }
+
+    private boolean urlIsValidate(final String urlStr){
+        if(urlStr==null || urlStr.isEmpty()){
+            return false;
+        }
+        URL url = new URL(urlStr);
+        HttpURLConnection connection = url.openConnection();
+
     }
 }

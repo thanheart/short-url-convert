@@ -11,5 +11,5 @@ package com.afangsha.tool.shorturl.biz.util;
  *
  */
 public class QRCodeUtils {
-    
+
 }
