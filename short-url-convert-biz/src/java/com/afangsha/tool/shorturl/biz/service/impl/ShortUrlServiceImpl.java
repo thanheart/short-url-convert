@@ -14,10 +14,13 @@ import com.afangsha.tool.shorturl.biz.util.HashCreateUtils;
 import com.afangsha.tool.shorturl.data.url.UrlConvertData;
 import com.afangsha.tool.shorturl.db.mysql.UrlConvertMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author changsu
@@ -32,14 +35,22 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     private static String ConflictAddValue = "#";
     private static int MaxTryCount = 10;
     private static String Empty = "";
+    private static final long TIME_OUT_SIZE = 10;
 
     @Autowired
     private UrlConvertMapper urlConvertMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
     public String convertToShortUrl(final String longUrl) {
         final String trueUrl = longUrl.startsWith(HTTP) ? longUrl : Https + longUrl;
-        //验证URL 是否可以访问 todo
+        //验证URL 是否可以访问
+        urlIsInValidate(trueUrl);
         final UrlConvertData urlConvertData = new UrlConvertData();
         urlConvertData.setLongUrl(trueUrl);
         String hashStr = new String(trueUrl);
@@ -49,11 +60,14 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                 hashCode *= (-1);
             }
             urlConvertData.setHashcode(hashCode);
-            urlConvertData.setShortUrl(
-                    ShortUrlPrefix + BinarySystemUtils.convertTenToSixtyTwoBinary(hashCode));
+            final String shortUrl =
+                    ShortUrlPrefix + BinarySystemUtils.convertTenToSixtyTwoBinary(hashCode);
+            urlConvertData.setShortUrl(shortUrl);
             try {
                 urlConvertMapper.insert(urlConvertData);
-                return urlConvertData.getShortUrl();
+                stringRedisTemplate.opsForValue().set(shortUrl, trueUrl, TIME_OUT_SIZE,
+                        TimeUnit.MINUTES);
+                return shortUrl;
             } catch (final Exception e) {
                 //add log todo
                 final UrlConvertData reqConvertData = new UrlConvertData();
@@ -74,6 +88,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         if (!shortUrl.startsWith(ShortUrlPrefix)) {
             throw new ShortUrlException(ResponseMessageEnum.URL_NOT_SHORT);
         }
+        final String value = stringRedisTemplate.opsForValue().get(shortUrl);
+        if (value != null) {
+            return value;
+        }
         final String number = shortUrl.replace(ShortUrlPrefix, Empty);
         final long hashCode = Long.valueOf(BinarySystemUtils.convertSixtyTwoToTenBinary(number));
         final UrlConvertData reqConvertData = new UrlConvertData();
@@ -85,12 +103,21 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         throw new ShortUrlException(ResponseMessageEnum.URL_NOT_EXISTS);
     }
 
-    private boolean urlIsValidate(final String urlStr){
-        if(urlStr==null || urlStr.isEmpty()){
-            return false;
+    private void urlIsInValidate(final String urlStr) {
+        if (urlStr == null || urlStr.isEmpty()) {
+            throw new ShortUrlException(ResponseMessageEnum.URL_IN_VALIDATE);
         }
-        URL url = new URL(urlStr);
-        HttpURLConnection connection = url.openConnection();
-
+        int responseCode = -1;
+        try {
+            URL url = new URL(urlStr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            responseCode = connection.getResponseCode();
+        } catch (final Exception e) {
+            //add log
+            throw new ShortUrlException(ResponseMessageEnum.URL_IN_VALIDATE);
+        }
+        if (responseCode != 200) {
+            throw new ShortUrlException(ResponseMessageEnum.URL_IN_VALIDATE);
+        }
     }
 }

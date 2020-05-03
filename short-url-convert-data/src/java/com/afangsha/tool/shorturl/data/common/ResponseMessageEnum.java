@@ -19,6 +19,7 @@ public enum  ResponseMessageEnum {
     SHORT_URL_CREAT_ERROR(10000,"短链接生成异常"),
     URL_NOT_SHORT(10001,"不是短链接"),
     URL_NOT_EXISTS(10002,"短链接不存在"),
+    URL_IN_VALIDATE(10003,"次链接无效"),
 
     /**
      *  90000-90100 为通用错误码
